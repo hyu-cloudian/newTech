@@ -1,0 +1,65 @@
+package com.Cloudian.HyperView;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class Get_Log_Content_from_Remote_Server {
+	
+	 private final static int SAFEINTERVAL = 10;
+	 private final static int MININTERVAL = 100;
+	 
+	 int interval = 5000;
+	 
+	 final String filePath = "/Users/haiyuyu/Desktop/test";
+	 final String logPosPath = "/Users/haiyuyu/Desktop/logPos";
+	 
+	 public void get_log_content() throws IOException {
+		 
+		    RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
+		    //When the system down and run this program again, recover the position from previous record
+		    raf.writeBytes("hello world");
+		    long len = getLogPos();
+		    raf.seek(len);
+		    System.out.println("" + raf.readLine());
+		    len = raf.length();
+	        saveLogPos(len);
+		    
+		    while(true) {
+		    	try {
+		    		if(interval >= MININTERVAL) {
+		    			Thread.sleep(interval);
+		    		} else if (interval >= SAFEINTERVAL && interval < MININTERVAL) {
+		    			Thread.sleep(MININTERVAL);
+		    		} else {
+		    			System.out.println("The interval num was set too small");
+		    		}
+		    		raf.writeBytes("It is a test from Haiyu");
+		    		//len = getLogPos();
+					raf.seek(len);
+				    System.out.println("" + raf.readLine());
+			        len = raf.length();
+			        saveLogPos(len);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+	 }
+	 
+	 private void saveLogPos(long len) throws IOException {
+		 RandomAccessFile raf = new RandomAccessFile(logPosPath, "rw");
+		 raf.seek(0);
+		 raf.writeBytes(""+len);
+		 raf.close();
+	 }
+	 
+	 private long getLogPos() throws IOException {
+		 RandomAccessFile raf = new RandomAccessFile(logPosPath, "rw");
+		 raf.seek(0);
+		 String logLength = "" + raf.readLine();
+		 raf.close();
+		 return Long.valueOf(logLength);
+	 }
+
+}

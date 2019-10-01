@@ -1,0 +1,2 @@
+spring.profiles.active=@spring.profiles.active@
+spring.main.web-application-type=none

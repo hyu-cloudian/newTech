@@ -1,0 +1,5 @@
+
+public class RunResult {
+    Get_Log_Content_from_Remote_Server get_log_content = new Get_Log_Content_from_Remote_Server get_log_content();
+    
+}

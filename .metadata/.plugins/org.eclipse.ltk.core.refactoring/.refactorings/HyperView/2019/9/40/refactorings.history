@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.Cloudian.HyperView.Get_Metrics_from_Web_Service&apos; to &apos;Get_Metrics_from_Source&apos;&#x0A;- Original project: &apos;HyperView&apos;&#x0A;- Original element: &apos;com.Cloudian.HyperView.Get_Metrics_from_Web_Service&apos;&#x0A;- Renamed element: &apos;com.Cloudian.HyperView.Get_Metrics_from_Source&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Get_Metrics_from_Web_Service&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.Cloudian.HyperView{Get_Metrics_from_Web_Service.java[Get_Metrics_from_Web_Service" matchStrategy="1" name="Get_Metrics_from_Source" qualified="false" references="true" similarDeclarations="false" stamp="1569881600975" textual="false" version="1.0"/>
+</session>

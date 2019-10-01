@@ -1,0 +1,8 @@
+
+public interface HyperView_Interface {
+   public void Get_Top_Five_Buckets();
+   public void Get_Most_Read_Objects();
+   public void Get_Avg_Size_of_Objects();
+   public void Get_S3_Transactions();
+   public void Get_Hsstool_Status();
+}

@@ -1,0 +1,71 @@
+package com.Cloudian.HyperView;
+
+public class Get_Metrics_from_Web_Service {
+	public void GetGraphDataTesting() throws Exception {
+
+		URL url = new URL("http://10.10.3.155:9100/metrics");
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-type", "application/json");
+		con.setRequestProperty("Accept", "*/*");
+		con.setRequestProperty("Origin", "https://hien-preview-admin.infiswift.tech");
+		con.setRequestProperty("Referer", "https://hien-preview-admin.infiswift.tech/projects/hierarchy/");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36");
+
+	    con.setRequestProperty("x-access-token", token);
+		
+		con.setDoInput(true);
+		con.setDoOutput(true);
+
+		OutputStream os = con.getOutputStream();    
+		JSONObject urlParameters = new JSONObject();
+		
+		JSONArray streamDataArray = new JSONArray();
+		JSONArray columnArray = new JSONArray();
+		JSONArray IdArray = new JSONArray();
+		JSONObject streamData_object = new JSONObject();
+		JSONObject columns_object = new JSONObject();
+		columns_object.put("name","power");
+		columns_object.put("isImportant", "true");
+		columnArray.put(columns_object);
+		IdArray.put(2182);
+		IdArray.put(2181);
+		streamData_object.put("type","Inverter");
+		streamData_object.put("columns", columnArray);
+		streamData_object.put("IDs", IdArray);
+		streamDataArray.put(streamData_object);
+		
+		urlParameters.put("from_date", "2019-08-05T07:46:50");
+		urlParameters.put("to_date", "2019-08-07T07:46:50");
+		urlParameters.put("refresh_interval", "5");
+		urlParameters.put("minimum_interval", "5");
+		urlParameters.put("project_id", "7");
+		urlParameters.put("streamData",streamDataArray);
+		os.write(urlParameters.toString().getBytes("UTF-8"));
+		
+		try(BufferedReader br = new BufferedReader(
+				  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+				    StringBuilder response = new StringBuilder();
+				    String responseLine = null;
+				    while ((responseLine = br.readLine()) != null) {
+				        response.append(responseLine.trim());
+				    }
+				    System.out.println("response: "+ response );
+				    String[] strs = response.toString().substring(1,response.toString().length() - 1).split(",");
+				    
+				    String subStatus = strs[0].split(":")[1];
+				    System.out.println(subStatus.substring(1,subStatus.length()-1));
+				    if(!subStatus.substring(1,subStatus.length() - 1).equals("SUCCESS")) {
+			        	count_num.add(0);
+				    }else {
+				    	count_num.add(1);
+				    }
+				    
+				}
+	   }
+	
+}
+
+}
+
+	

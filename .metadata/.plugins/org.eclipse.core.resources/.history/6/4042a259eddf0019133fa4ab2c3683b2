@@ -1,0 +1,15 @@
+import java.io.IOException;
+
+import Get_Log_Content_from_Remote_Server;
+
+public class RunResult {
+	public static void main(String args[]) {
+	    Get_Log_Content_from_Remote_Server getLog = new Get_Log_Content_from_Remote_Server();
+	    try {
+			getLog.get_log_content();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

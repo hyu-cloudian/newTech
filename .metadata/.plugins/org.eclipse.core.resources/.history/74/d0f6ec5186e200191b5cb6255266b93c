@@ -1,0 +1,20 @@
+package controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import service.PersonService;
+
+@RestController
+public class PersonController {
+  @Autowired
+  PersonService ps;
+  
+  @RequestMapping("/all")
+  public Hashtable<String, Person> getAll(){
+	  return ps.getAll();
+  }
+  @RequestMapping("{id}")
+  public Person getPerson(@PathVariable("id") String id) {
+	  return ps.getPerson(id);
+  }
+}

@@ -1,0 +1,73 @@
+package com.Cloudian.HyperView;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class Get_Log_Content_from_Remote_Server {
+	
+	 private final static int SAFEINTERVAL = 10;
+	 private final static int MININTERVAL = 100;
+	 
+	 int interval = 8;
+	 
+	 private final static String filePath = "/Users/haiyuyu/Desktop/test";
+	 private final static String logPosPath = "/Users/haiyuyu/Desktop/logPos";
+	 private final static String errorLogPath = "/Users/haiyuyu/Desktop/errorLog";
+	 
+	 public void getLogContent() throws IOException {
+		 
+		    RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
+		    //When the system down and run this program again, recover the position from previous record
+		    long len = getLogPos();
+		    System.out.println(len);
+		    raf.writeBytes("hello world++++++");
+		    raf.seek(len);
+		    System.out.println("" + raf.readLine());
+		    len = raf.length();
+		    System.out.println(len);
+	        saveLogPos(len);
+		    
+		    while(true) {
+		    	try {
+		    		if(interval >= MININTERVAL) {
+		    			Thread.sleep(interval);
+		    		} else if (interval >= SAFEINTERVAL && interval < MININTERVAL) {
+		    			Thread.sleep(MININTERVAL);
+		    		} else {
+		    			addIntervalErrorInfo(interval);
+		    			throw new ArithmeticException("The interval num is too small"); 
+		    		}
+		    		raf.writeBytes("It is a test from Haiyu");
+					raf.seek(len);
+				    System.out.println("" + raf.readLine());
+			        len = raf.length();
+			        saveLogPos(len);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+	 }
+	 
+	 private void saveLogPos(long len) throws IOException {
+		 RandomAccessFile raf = new RandomAccessFile(logPosPath, "rw");
+		 raf.writeBytes(""+len);
+		 raf.close();
+	 }
+	 
+	 private long getLogPos() throws IOException {
+		 RandomAccessFile raf = new RandomAccessFile(logPosPath, "rw");
+		 String logLength = "" + raf.readLine();
+		 raf.close();
+		 return Long.valueOf(logLength);
+	 }
+	 
+	 private void addIntervalErrorInfo(int interval) throws IOException {
+		 RandomAccessFile raf = new RandomAccessFile(errorLogPath, "rw");
+		 raf.seek(raf.length());
+		 raf.writeBytes(""+interval+"\n");
+		 raf.close();
+	 }
+
+}
