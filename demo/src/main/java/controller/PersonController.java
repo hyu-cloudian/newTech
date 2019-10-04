@@ -9,12 +9,11 @@ import model.Person;
 import service.PersonService;
 
 @RestController
-@RequestMapping("/persons")
 public class PersonController {
   @Autowired
   PersonService ps;
   
-  @RequestMapping("/all")
+  @RequestMapping("/metrics")
   public Hashtable<String, Person> getAll(){
 	  return ps.getAll();
   }
